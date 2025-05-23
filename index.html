@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2048 with Anime.js</title>
+  <style>
+    body {
+      background: #183c1a;
+      color: #fff;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #score {
+      font-size: 1.5em;
+      background: #2e7031;
+      padding: 10px 30px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      letter-spacing: 2px;
+      box-shadow: 0 2px 8px #0002;
+    }
+    #board {
+      background: #dbf0da00;
+      padding: 24px;
+      border-radius: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 64px);
+      grid-template-rows: repeat(4, 64px);
+      gap: 12px;
+      /* box-shadow: 0 6px 32px #0004; */
+      position: relative;
+      left: 10px;
+      top: 10px;
+    }
+    .cell {
+      width: 64px;
+      height: 64px;
+      background: #f2faf024;
+      border-radius: 10px;
+    }
+    .tile {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 2em;
+      z-index: 2;
+      box-shadow: 3px 3px 4px #0004;
+      user-select: none;
+    }
+    #restart {
+      margin-top: 20px;
+      background: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 30px;
+      font-size: 1.1em;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    #restart:hover {
+      background: #388e3c;
+    }
+    #gameover {
+      display: none;
+      position: absolute;
+      left: 0; right: 0; top: 0; bottom: 0;
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      font-size: 2em;
+      border-radius: 16px;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      flex-direction: column;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div id="score">Score: <span id="score-value">0</span></div>
+    <div id="board"></div>
+    <button id="restart">重新開始</button>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
