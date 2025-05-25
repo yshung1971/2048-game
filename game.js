@@ -21,6 +21,109 @@ let score = 0;
 const board = document.getElementById('board');
 const scoreValue = document.getElementById('score-value');
 const restartBtn = document.getElementById('restart');
+const audioStatus = document.getElementById('audioStatus');
+
+// 延遲獲取合併音效元素
+let mergeSound = null;
+
+// 播放合併音效
+function playMergeSound() {
+    // 如果尚未獲取過合併音效元素，則嘗試獲取
+    if (!mergeSound) {
+        mergeSound = document.getElementById('mergeSound');
+        if (!mergeSound) {
+            console.error('找不到合併音效元素');
+            return;
+        }
+        
+        // 預先載入音效
+        mergeSound.load();
+        console.log('已載入合併音效元素');
+    }
+    
+    console.log('嘗試播放合併音效...');
+    
+    console.log('音效元素狀態:', {
+        readyState: mergeSound.readyState,
+        error: mergeSound.error,
+        src: mergeSound.src,
+        currentSrc: mergeSound.currentSrc
+    });
+    
+    // 重置音效到開始
+    mergeSound.currentTime = 0;
+    
+    // 設置音量（0.0 到 1.0）
+    mergeSound.volume = 0.9;
+    
+    // 播放音效
+    const playPromise = mergeSound.play();
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            console.log('合併音效播放成功');
+        }).catch(error => {
+            console.error('無法播放合併音效:', error);
+        });
+    }
+}
+
+// 創建音頻對象
+let bgm = new Audio();
+bgm.src = './像素冒險樂園.mp3';
+bgm.loop = true;
+bgm.volume = 0.1; // 50% 音量
+
+// 顯示音頻狀態
+function updateAudioStatus(message, isError = false) {
+    console.log(message);
+    if (audioStatus) {
+        audioStatus.textContent = message;
+        audioStatus.style.display = 'block';
+        audioStatus.style.color = isError ? 'red' : 'green';
+    }
+}
+
+// 設置音頻事件監聽
+bgm.addEventListener('canplaythrough', function() {
+    updateAudioStatus('音頻已準備好播放');
+    // 嘗試播放（需要用戶交互）
+    const playPromise = bgm.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(error => {
+            updateAudioStatus('自動播放被阻止，請點擊頁面播放音樂', true);
+        });
+    }
+});
+
+bgm.addEventListener('error', function(e) {
+    updateAudioStatus('音頻加載錯誤: ' + (bgm.error ? bgm.error.message : '未知錯誤'), true);
+});
+
+bgm.addEventListener('play', function() {
+    updateAudioStatus('音樂播放中...');
+});
+
+bgm.addEventListener('pause', function() {
+    updateAudioStatus('音樂已暫停');
+});
+
+// 點擊頁面時播放音樂
+function handleFirstInteraction() {
+    if (bgm.paused) {
+        const playPromise = bgm.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                updateAudioStatus('播放失敗: ' + error.message, true);
+            });
+        }
+    }
+    // 移除事件監聽器，只執行一次
+    document.removeEventListener('click', handleFirstInteraction);
+    document.removeEventListener('keydown', handleFirstInteraction);
+}
+
+document.addEventListener('click', handleFirstInteraction);
+document.addEventListener('keydown', handleFirstInteraction);
 
 function emptyGrid() {
     return Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
@@ -153,6 +256,9 @@ function move(dir) {
                 const mergedValue = line[i] * 2;
                 newLine.push(mergedValue);
                 addScore += mergedValue;
+                
+                // 播放合併音效
+                playMergeSound();
 
                 let nextOriginalGridIndex = -1;
                 count = 0;
@@ -172,6 +278,7 @@ function move(dir) {
 
                 const actualOriginalGridIndex = isReversed ? (SIZE - 1 - originalGridIndex) : originalGridIndex;
                 const actualNextOriginalGridIndex = isReversed ? (SIZE - 1 - nextOriginalGridIndex) : nextOriginalGridIndex;
+
 
                 lineMoveMap.push({
                     value: currentValue,
@@ -361,6 +468,11 @@ function isGameOver() {
 }
 
 function showGameOver() {
+    // 暫停背景音樂
+    if (bgm) {
+        bgm.pause();
+    }
+    
     let over = document.getElementById('gameover');
     if (!over) {
         over = document.createElement('div');
@@ -387,16 +499,36 @@ function showGameOver() {
 }
 
 function startGame() {
+    // 重置並播放背景音樂
+    if (bgm) {
+        bgm.currentTime = 0; // 重設音樂到開頭
+        bgm.volume = 0.1; // 設置音量為 30%
+        const playPromise = bgm.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.log('自動播放被阻止，請點擊頁面播放音樂');
+            });
+        }
+    }
+
     grid = emptyGrid();
     score = 0;
-    updateScore(0); // Initialize score display
+    scoreValue.textContent = '0';
     drawBoard();
     addRandomTile();
     addRandomTile();
     drawTiles();
-    let over = document.getElementById('gameover');
-    if (over) over.style.display = 'none';
+    document.getElementById('gameover')?.remove();
 }
+
+// 點擊頁面時播放音樂（解決自動播放限制）
+document.addEventListener('click', function playMusic() {
+    if (bgm && bgm.paused) {
+        bgm.play().catch(e => console.log('播放音樂失敗'));
+    }
+    // 移除事件監聽器，只執行一次
+    document.removeEventListener('click', playMusic);
+}, { once: true });
 
 window.addEventListener('keydown', e => {
     if (document.getElementById('gameover')?.style.display === 'flex') return;

@@ -1,54 +1,85 @@
-# 2048 Game
+# 2048 Game (v0.1)
 
-A browser-based implementation of the popular 2048 puzzle game. Combine matching numbers to reach the 2048 tile!
+一個基於瀏覽器的 2048 益智遊戲。合併相同數字的方塊，目標是獲得 2048 方塊！
 
 ![Game Screenshot](screenshot.png)  
-*Screenshot of the game in action*
+*遊戲截圖*
 
-## Features
+## 功能特點 (v0.1)
 
-- Clean, responsive UI with smooth animations
-- Score tracking
-- Game over detection
-- Restart functionality
-- Keyboard controls (arrow keys)
+- 🎮 流暢的遊戲動畫效果
+- 📊 分數計算與顯示
+- 🎵 背景音樂與音效
+  - 遊戲背景音樂
+  - 方塊合併音效
+- 🎮 遊戲控制
+  - 鍵盤方向鍵（↑, →, ↓, ←）控制方塊移動
+  - 重新開始按鈕
+- 📱 響應式設計，支援各種裝置
+- 🎨 簡潔直觀的使用者介面
 
-## How to Play
+## 遊戲規則
 
-1. Use the **arrow keys** to move all tiles in that direction
-2. When two tiles with the same number touch, they merge into one
-3. After each move, a new tile (2 or 4) appears in a random empty cell
-4. The game ends when there are no more moves possible
-5. Try to reach the 2048 tile!
+1. 使用 **方向鍵** 移動所有方塊
+2. 當兩個相同數字的方塊相撞時，它們會合併成一個
+3. 每次移動後，會隨機在空白處出現一個新方塊（2 或 4）
+4. 當沒有移動空間時遊戲結束
+5. 目標是獲得 2048 方塊！
 
-## Getting Started
+## 操作說明
 
-### Prerequisites
+- **方向鍵 (↑, →, ↓, ←)**: 移動方塊
+- **重新開始按鈕**: 開始新遊戲
 
-- A modern web browser (Chrome, Firefox, Safari, Edge, etc.)
+## 開始遊戲
 
-### Installation
+### 環境需求
 
-1. Clone the repository:
+- 現代網頁瀏覽器 (Chrome, Firefox, Safari, Edge 等)
+
+### 安裝步驟
+
+1. 複製儲存庫：
    ```bash
    git clone https://github.com/yshung1971/2048-game.git
    ```
-2. Navigate to the project directory
-3. Open `index.html` in your web browser
+2. 進入專案目錄
+3. 用瀏覽器開啟 `index.html` 檔案
+
+## 音效設定
+
+- 背景音樂會在遊戲開始時自動播放
+- 若瀏覽器阻止自動播放，請點擊遊戲畫面以啟用音效
+- 合併方塊時會播放音效
 
 ## Game Controls
 
 - **Arrow Keys (↑, →, ↓, ←)**: Move tiles in the corresponding direction
 - **Restart Button**: Start a new game
 
-## Project Structure
+## 專案結構
 
-- `index.html` - Main HTML file
-- `game.js` - Game logic and rendering
+- `index.html` - 主 HTML 檔案
+- `game.js` - 遊戲邏輯與渲染
+- `merged.mp3` - 方塊合併音效
+- `像素冒險樂園.mp3` - 背景音樂
 
-## Contributing
+## 未來更新計畫
 
-Contributions are welcome! Feel free to submit issues and pull requests.
+- [ ] 添加更多音效（移動、遊戲結束等）
+- [ ] 實現最高分記錄功能
+- [ ] 添加動畫效果
+- [ ] 增加遊戲難度選擇
+- [ ] 支援觸控操作
+- [ ] 添加成就系統
+
+## 貢獻指南
+
+歡迎提交問題和拉取請求！請確保您的代碼符合專案的編碼風格。
+
+## 授權
+
+[MIT License](LICENSE)
 
 ## License
 
