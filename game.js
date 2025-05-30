@@ -54,7 +54,7 @@ function playMergeSound() {
     mergeSound.currentTime = 0;
     
     // 設置音量（0.0 到 1.0）
-    mergeSound.volume = 0.9;
+    mergeSound.volume = 0.2;
     
     // 播放音效
     const playPromise = mergeSound.play();
@@ -71,7 +71,7 @@ function playMergeSound() {
 let bgm = new Audio();
 bgm.src = './像素冒險樂園.mp3';
 bgm.loop = true;
-bgm.volume = 0.1; // 50% 音量
+bgm.volume = 0.2; // 20% 音量
 
 // 顯示音頻狀態
 function updateAudioStatus(message, isError = false) {
@@ -502,7 +502,7 @@ function startGame() {
     // 重置並播放背景音樂
     if (bgm) {
         bgm.currentTime = 0; // 重設音樂到開頭
-        bgm.volume = 0.1; // 設置音量為 30%
+        bgm.volume = 0.2; // 設置音量為 30%
         const playPromise = bgm.play();
         if (playPromise !== undefined) {
             playPromise.catch(error => {
